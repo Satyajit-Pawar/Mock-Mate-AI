@@ -5,7 +5,7 @@ import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/hooks/use-auth';
 import Header from '@/components/shared/header';
 import InterviewPanel from '@/components/interview/interview-panel';
-import type { InterviewType } from '@/lib/types';
+import type { InterviewType, InterviewDifficulty } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 
@@ -17,7 +17,9 @@ export default function InterviewPage() {
 
     const interviewTypeParam = Array.isArray(params.type) ? params.type[0] : params.type;
     const sessionName = searchParams.get('sessionName') || 'Practice Session';
-    
+    const topic = searchParams.get('topic');
+    const difficulty = (searchParams.get('difficulty') as InterviewDifficulty) || 'Medium';
+
     // Capitalize first letter to match the InterviewType definition
     const interviewType = interviewTypeParam.charAt(0).toUpperCase() + interviewTypeParam.slice(1) as InterviewType;
 
@@ -67,6 +69,8 @@ export default function InterviewPage() {
                     interviewType={interviewType} 
                     userId={user.uid} 
                     sessionName={decodeURIComponent(sessionName)}
+                    topic={topic ? decodeURIComponent(topic) : undefined}
+                    difficulty={difficulty}
                 />
             </main>
         </div>

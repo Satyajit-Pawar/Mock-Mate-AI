@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/use-auth';
 import { db } from '@/lib/firebase';
 import { collection, query, where, orderBy, getDocs } from 'firebase/firestore';
-import type { InterviewSession, InterviewType } from '@/lib/types';
+import type { InterviewSession, InterviewType, InterviewDifficulty } from '@/lib/types';
 
 import Header from '@/components/shared/header';
 import InterviewTypeSelector from '@/components/dashboard/interview-type-selector';
@@ -23,6 +23,14 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Label } from '@/components/ui/label';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 
 export default function DashboardPage() {
   const { user, loading } = useAuth();
@@ -32,6 +40,8 @@ export default function DashboardPage() {
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [selectedInterviewType, setSelectedInterviewType] = useState<InterviewType | null>(null);
   const [sessionName, setSessionName] = useState('');
+  const [topic, setTopic] = useState('');
+  const [difficulty, setDifficulty] = useState<InterviewDifficulty>('Medium');
 
   useEffect(() => {
     if (!loading && !user) {
@@ -65,13 +75,21 @@ export default function DashboardPage() {
   const handleStartInterview = (type: InterviewType) => {
     setSelectedInterviewType(type);
     setSessionName('');
+    setTopic('');
+    setDifficulty('Medium');
     setIsDialogVisible(true);
   };
 
   const handleConfirmStart = () => {
     if (selectedInterviewType) {
-      const encodedSessionName = encodeURIComponent(sessionName || `Practice - ${new Date().toLocaleDateString()}`);
-      router.push(`/interview/${selectedInterviewType.toLowerCase()}?sessionName=${encodedSessionName}`);
+      const searchParams = new URLSearchParams();
+      searchParams.set('sessionName', sessionName || `Practice - ${new Date().toLocaleDateString()}`);
+      if (topic) {
+        searchParams.set('topic', topic);
+      }
+      searchParams.set('difficulty', difficulty);
+
+      router.push(`/interview/${selectedInterviewType.toLowerCase()}?${searchParams.toString()}`);
     }
     setIsDialogVisible(false);
   };
@@ -122,7 +140,7 @@ export default function DashboardPage() {
           <DialogHeader>
             <DialogTitle>Start New Interview</DialogTitle>
             <DialogDescription>
-              Give this interview session a name to track your progress.
+              Configure your interview session.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
@@ -137,6 +155,35 @@ export default function DashboardPage() {
                 className="col-span-3"
                 placeholder={`e.g., "Google On-site Prep"`}
               />
+            </div>
+            {selectedInterviewType === 'Technical' && (
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="topic" className="text-right">
+                  Topic
+                </Label>
+                <Input
+                  id="topic"
+                  value={topic}
+                  onChange={(e) => setTopic(e.target.value)}
+                  className="col-span-3"
+                  placeholder={`e.g., "React Hooks"`}
+                />
+              </div>
+            )}
+            <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="difficulty" className="text-right">
+                    Difficulty
+                </Label>
+                 <Select value={difficulty} onValueChange={(value) => setDifficulty(value as InterviewDifficulty)}>
+                    <SelectTrigger className="col-span-3">
+                        <SelectValue placeholder="Select difficulty" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectItem value="Easy">Easy</SelectItem>
+                        <SelectItem value="Medium">Medium</SelectItem>
+                        <SelectItem value="Hard">Hard</SelectItem>
+                    </SelectContent>
+                </Select>
             </div>
           </div>
           <DialogFooter>

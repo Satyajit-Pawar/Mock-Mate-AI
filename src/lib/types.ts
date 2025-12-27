@@ -8,6 +8,7 @@ export interface User {
 }
 
 export type InterviewType = "Technical" | "HR" | "Behavioral" | "Fresher";
+export type InterviewDifficulty = "Easy" | "Medium" | "Hard";
 
 export interface InterviewFeedback {
   overallScore: number;
@@ -21,6 +22,8 @@ export interface InterviewSession {
   userId: string;
   interviewType: InterviewType;
   sessionName: string;
+  topic?: string;
+  difficulty?: InterviewDifficulty;
   question: string;
   answer: string;
   feedback: InterviewFeedback;

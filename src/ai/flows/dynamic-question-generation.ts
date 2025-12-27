@@ -18,6 +18,8 @@ const GenerateQuestionInputSchema = z.object({
     .describe(
       'The type of interview for which to generate a question (e.g., Technical, HR, Behavioral, Fresher).'
     ),
+  topic: z.string().optional().describe('A specific topic for the interview question (e.g., "React Hooks", "AWS S3").'),
+  difficulty: z.string().optional().describe('The difficulty level of the question (e.g., "Easy", "Medium", "Hard").')
 });
 export type GenerateQuestionInput = z.infer<typeof GenerateQuestionInputSchema>;
 
@@ -36,7 +38,14 @@ const prompt = ai.definePrompt({
   name: 'generateQuestionPrompt',
   input: {schema: GenerateQuestionInputSchema},
   output: {schema: GenerateQuestionOutputSchema},
-  prompt: `You are an experienced interviewer. Generate a dynamic and relevant interview question for a {{interviewType}} interview. The question should be challenging and insightful, designed to assess the candidate's skills and experience. Focus on open-ended questions that require the candidate to elaborate. The answer should be 1-3 sentences.`,
+  prompt: `You are an experienced interviewer. Generate a dynamic and relevant interview question for a {{interviewType}} interview.
+  {{#if topic}}
+  The question should be about the following topic: {{topic}}.
+  {{/if}}
+  {{#if difficulty}}
+  The question should be of {{difficulty}} difficulty.
+  {{/if}}
+  The question should be challenging and insightful, designed to assess the candidate's skills and experience. Focus on open-ended questions that require the candidate to elaborate. The answer should be 1-3 sentences.`,
 });
 
 const generateQuestionFlow = ai.defineFlow(

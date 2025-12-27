@@ -17,7 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Loader2, Mic, StopCircle, Video } from "lucide-react";
-import type { InterviewType, InterviewFeedback } from "@/lib/types";
+import type { InterviewType, InterviewFeedback, InterviewDifficulty } from "@/lib/types";
 import FeedbackDialog from "./feedback-dialog";
 import { toast } from "@/hooks/use-toast";
 import { Textarea } from "@/components/ui/textarea";
@@ -34,12 +34,16 @@ type InterviewPanelProps = {
   interviewType: InterviewType;
   userId: string;
   sessionName: string;
+  topic?: string;
+  difficulty?: InterviewDifficulty;
 };
 
 export default function InterviewPanel({
   interviewType,
   userId,
-  sessionName
+  sessionName,
+  topic,
+  difficulty
 }: InterviewPanelProps) {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
@@ -91,7 +95,7 @@ export default function InterviewPanel({
     setFeedback(null);
 
     try {
-      const result = await generateQuestion({ interviewType });
+      const result = await generateQuestion({ interviewType, topic, difficulty });
       setQuestion(result.question);
     } catch {
       setQuestion("Failed to generate question. Please try again.");
@@ -108,7 +112,7 @@ export default function InterviewPanel({
   useEffect(() => {
     getNewQuestion();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [interviewType]);
+  }, [interviewType, topic, difficulty]);
 
   /* ✅ Start recording */
   const startRecording = () => {
@@ -175,6 +179,8 @@ export default function InterviewPanel({
         userId,
         interviewType,
         sessionName,
+        topic: topic || null,
+        difficulty: difficulty || null,
         question,
         answer,
         feedback: feedbackResult,
