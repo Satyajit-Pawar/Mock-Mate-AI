@@ -174,7 +174,6 @@ export default function InterviewPanel({
         interviewType,
         question,
         answer,
-        score: feedbackResult.score ?? null,
         feedback: feedbackResult,
         createdAt: serverTimestamp(),
       });

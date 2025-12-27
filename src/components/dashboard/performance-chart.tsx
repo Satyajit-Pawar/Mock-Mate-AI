@@ -1,94 +1,59 @@
 "use client";
 
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import {
-  ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart"
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
-import type { InterviewSession } from "@/lib/types";
 import { format } from "date-fns";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
 
 type PerformanceChartProps = {
-  data: InterviewSession[];
-};
-
-const chartConfig = {
-    score: {
-        label: "Score",
-        color: "hsl(var(--primary))",
-    },
+  data: any[];
 };
 
 export default function PerformanceChart({ data }: PerformanceChartProps) {
-  const chartData = data
-    .filter(session => session.createdAt)
-    .map(session => ({
-      date: format(session.createdAt.toDate(), "MMM d"),
-      score: session.feedback.overallScore,
-    }))
-    .reverse();
+  // ✅ SAFELY transform Firestore data
+  const chartData =
+    data
+      ?.filter(
+        (session) =>
+          session?.createdAt &&
+          typeof session.createdAt.toDate === "function" &&
+          session?.feedback?.overallScore !== undefined
+      )
+      .map((session) => ({
+        date: format(session.createdAt.toDate(), "MMM d"),
+        score: session.feedback.overallScore,
+      }))
+      .reverse() || [];
+
+  if (chartData.length === 0) {
+    return (
+      <div className="flex h-64 items-center justify-center text-muted-foreground">
+        No interview data yet. Complete an interview to see your progress.
+      </div>
+    );
+  }
 
   return (
-    <Card>
-    <CardHeader>
-        <CardTitle>Performance Trend</CardTitle>
-        <CardDescription>Your average scores over your last interview sessions.</CardDescription>
-    </CardHeader>
-    <CardContent>
-        {chartData.length > 1 ? (
-        <ChartContainer config={chartConfig} className="h-[300px] w-full">
-            <AreaChart accessibilityLayer data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-            <CartesianGrid vertical={false} />
-            <XAxis
-                dataKey="date"
-                tickLine={false}
-                tickMargin={10}
-                axisLine={false}
-                tickFormatter={(value) => value}
-            />
-            <YAxis
-                dataKey="score"
-                domain={[0, 10]}
-                tickLine={false}
-                axisLine={false}
-                tickMargin={10}
-            />
-            <ChartTooltip
-                cursor={false}
-                content={<ChartTooltipContent indicator="dot" />}
-            />
-            <defs>
-                <linearGradient id="fillScore" x1="0" y1="0" x2="0" y2="1">
-                <stop
-                    offset="5%"
-                    stopColor="var(--color-score)"
-                    stopOpacity={0.8}
-                />
-                <stop
-                    offset="95%"
-                    stopColor="var(--color-score)"
-                    stopOpacity={0.1}
-                />
-                </linearGradient>
-            </defs>
-            <Area 
-                dataKey="score" 
-                type="natural"
-                fill="url(#fillScore)"
-                stroke="var(--color-score)"
-                stackId="a" 
-            />
-            </AreaChart>
-        </ChartContainer>
-        ) : (
-        <div className="flex flex-col items-center justify-center h-[300px] text-center bg-muted/50 rounded-lg p-6">
-            <p className="font-semibold text-lg">Not enough data yet.</p>
-            <p className="text-sm text-muted-foreground">Complete at least two interviews to see your performance trend.</p>
-        </div>
-        )}
-    </CardContent>
-    </Card>
+    <div className="h-64 w-full">
+      <ResponsiveContainer width="100%" height="100%">
+        <LineChart data={chartData}>
+          <XAxis dataKey="date" />
+          <YAxis domain={[0, 10]} />
+          <Tooltip />
+          <Line
+            type="monotone"
+            dataKey="score"
+            stroke="#7c3aed"
+            strokeWidth={2}
+            dot={{ r: 4 }}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+    </div>
   );
 }
