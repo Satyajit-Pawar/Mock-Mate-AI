@@ -4,42 +4,72 @@ export default function PrivacyPage() {
   return (
     <>
       <Header />
-      <div className="container max-w-4xl py-12">
-        <h1 className="text-4xl font-bold mb-4">Privacy Policy</h1>
+
+      <div className="container max-w-4xl py-12 mx-auto">
+        <h1 className="text-4xl font-bold mb-6">Privacy Policy</h1>
+
         <div className="prose dark:prose-invert max-w-none">
           <p>
-            At InterviewAce, accessible from this domain, one of our main priorities is the privacy of our
-            visitors. This Privacy Policy document contains types of information that is collected and recorded by
-            InterviewAce and how we use it.
+            This Privacy Policy explains how we collect, use, and protect your
+            information when you use our platform. This project is created only
+            for learning and educational purposes.
           </p>
 
           <p>
-            If you have additional questions or require more information about our Privacy Policy, do not
-            hesitate to contact us.
+            By using this website, you agree to the collection and use of
+            information in accordance with this policy.
           </p>
 
-          <h2 className="text-2xl font-bold mt-6 mb-2">Log Files</h2>
-          <p>
-            InterviewAce follows a standard procedure of using log files. These files log visitors when they
-            visit websites. All hosting companies do this and a part of hosting services' analytics. The
-            information collected by log files include internet protocol (IP) addresses, browser type, Internet
-            Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks.
-            These are not linked to any information that is personally identifiable. The purpose of the
-            information is for analyzing trends, administering the site, tracking users' movement on the website,
-            and gathering demographic information.
-          p>
+          <h2 className="text-2xl font-semibold mt-6 mb-2">
+            Information We Collect
+          </h2>
 
-          <h2 className="text-2xl font-bold mt-6 mb-2">Personal Information</h2>
           <p>
-            We collect personal information such as your name and email address when you register for an account. We use this information to provide our services to you, including saving your interview history and tracking your progress. We do not share your personal information with third parties except as required by law.
+            We may collect basic information such as your name and email address
+            when you register or log in. This information is used only to
+            demonstrate authentication and learning features.
           </p>
 
-          <h2 className="text-2xl font-bold mt-6 mb-2">Consent</h2>
+          <h2 className="text-2xl font-semibold mt-6 mb-2">Log Files</h2>
+
           <p>
-            By using our website, you hereby consent to our Privacy Policy and agree to its terms.
+            Like many websites, this application may use log files. These files
+            collect information such as IP addresses, browser type, and time of
+            access. This data is used only for learning analytics and debugging
+            purposes.
+          </p>
+
+          <p>
+            The information collected through log files is not linked to any
+            personally identifiable data.
+          </p>
+
+          <h2 className="text-2xl font-semibold mt-6 mb-2">
+            Use of Information
+          </h2>
+
+          <p>
+            The collected information is used to improve the learning experience,
+            understand user interaction, and demonstrate features such as mock
+            interviews and progress tracking.
+          </p>
+
+          <h2 className="text-2xl font-semibold mt-6 mb-2">Consent</h2>
+
+          <p>
+            By using this website, you hereby consent to this Privacy Policy and
+            agree to its terms.
+          </p>
+
+          <h2 className="text-2xl font-semibold mt-6 mb-2">Contact</h2>
+
+          <p>
+            If you have any questions about this Privacy Policy, you can contact
+            us for learning-related clarification.
           </p>
         </div>
       </div>
     </>
   );
 }
+

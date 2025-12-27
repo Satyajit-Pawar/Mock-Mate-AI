@@ -14,6 +14,7 @@ import type { InterviewType, InterviewFeedback } from '@/lib/types';
 import FeedbackDialog from './feedback-dialog';
 import { toast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Textarea } from '@/components/ui/textarea';
 
 type InterviewPanelProps = {
     interviewType: InterviewType;
@@ -203,7 +204,14 @@ export default function InterviewPanel({ interviewType, userId }: InterviewPanel
                         </div>
 
                         <div className="p-4 border rounded-lg bg-muted/40 flex flex-col">
-                            <p className="flex-grow text-sm text-muted-foreground">{isRecording ? (answer || "Listening...") : (answer || "Your transcribed answer will appear here.")}</p>
+                            <Textarea
+                                placeholder={isRecording ? "Listening..." : "Your transcribed answer will appear here. You can also type your answer."}
+                                value={answer}
+                                onChange={(e) => setAnswer(e.target.value)}
+                                className="flex-grow bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                                rows={8}
+                                disabled={isLoading !== false}
+                            />
                             <div className="flex items-center justify-center pt-4">
                                 {!isRecording ? (
                                     <Button onClick={startRecording} disabled={isLoading !== false || hasCameraPermission !== true}>
