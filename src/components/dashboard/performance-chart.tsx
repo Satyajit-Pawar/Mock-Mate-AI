@@ -18,22 +18,21 @@ type PerformanceChartProps = {
 
 export default function PerformanceChart({ data }: PerformanceChartProps) {
   const chartData = data
-    .filter(session => session.createdAt && session.feedback?.overallScore !== undefined)
     .map(session => ({
-      date: format(new Date(session.createdAt as any), 'MMM d'),
+      date: format(new Date(session.createdAt), 'MMM d'),
       score: session.feedback.overallScore,
     }))
     .reverse();
 
   return (
-    <Card className="h-full">
+    <Card>
       <CardHeader>
         <CardTitle>Performance Over Time</CardTitle>
         <CardDescription>Your average interview scores from the last few sessions.</CardDescription>
       </CardHeader>
       <CardContent>
         {chartData.length > 0 ? (
-          <div className="h-64 w-full">
+          <div className="h-[300px]">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
                 <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" fontSize={12} />
@@ -51,7 +50,7 @@ export default function PerformanceChart({ data }: PerformanceChartProps) {
             </ResponsiveContainer>
           </div>
         ) : (
-          <div className="flex h-64 items-center justify-center rounded-md border border-dashed">
+          <div className="flex h-[300px] items-center justify-center rounded-md border border-dashed">
             <p className="text-sm text-muted-foreground">Complete an interview to see your progress chart.</p>
           </div>
         )}

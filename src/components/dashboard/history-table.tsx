@@ -22,11 +22,8 @@ type HistoryTableProps = {
 };
 
 export default function HistoryTable({ data, loading }: HistoryTableProps) {
-  // Filter for sessions that have a valid 'createdAt' and 'feedback' property.
-  const validData = data.filter(session => session.createdAt && session.feedback?.overallScore !== undefined);
-  
   return (
-    <Card className="h-full">
+    <Card>
         <CardHeader>
             <CardTitle>Interview History</CardTitle>
             <CardDescription>A log of your most recent mock interviews.</CardDescription>
@@ -52,12 +49,12 @@ export default function HistoryTable({ data, loading }: HistoryTableProps) {
                               <TableCell className="text-right"><Skeleton className="h-4 w-10 ml-auto" /></TableCell>
                             </TableRow>
                           ))
-                        ) : validData.length > 0 ? (
-                            validData.map((session) => (
+                        ) : data.length > 0 ? (
+                            data.map((session) => (
                                 <TableRow key={session.id}>
                                     <TableCell className="font-semibold">{session.sessionName || 'Practice Session'}</TableCell>
-                                    <TableCell><Badge variant="outline" className="font-normal">{session.interviewType}</Badge></TableCell>
-                                    <TableCell>{format(new Date(session.createdAt as any), "MMM d, yyyy")}</TableCell>
+                                    <TableCell><Badge variant="outline">{session.interviewType}</Badge></TableCell>
+                                    <TableCell>{format(new Date(session.createdAt), "MMM d, yyyy")}</TableCell>
                                     <TableCell className="text-right font-semibold text-primary">{session.feedback.overallScore}/10</TableCell>
                                 </TableRow>
                             ))

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/use-auth';
 import { db } from '@/lib/firebase';
-import { collection, query, where, getDocs, Timestamp, orderBy } from 'firebase/firestore';
+import { collection, query, where, getDocs, Timestamp } from 'firebase/firestore';
 import type { InterviewSession, InterviewType, InterviewDifficulty } from '@/lib/types';
 
 import Header from '@/components/shared/header';
@@ -57,18 +57,12 @@ export default function DashboardPage() {
       const fetchHistory = async () => {
         setDataLoading(true);
         try {
-          const q = query(
-            collection(db, "interviews"), 
-            where("userId", "==", user.uid)
-          );
+          const q = query(collection(db, "interviews"), where("userId", "==", user.uid));
           const querySnapshot = await getDocs(q);
           const historyData = querySnapshot.docs.map(doc => {
             const data = doc.data();
             // Firestore Timestamps need to be converted to JS Date objects.
-            const createdAt = data.createdAt instanceof Timestamp 
-              ? data.createdAt.toDate() 
-              : (data.createdAt ? new Date(data.createdAt) : new Date());
-            
+            const createdAt = data.createdAt instanceof Timestamp ? data.createdAt.toDate() : new Date(data.createdAt);
             return { 
                 id: doc.id, 
                 ...data,
@@ -76,11 +70,7 @@ export default function DashboardPage() {
             } as InterviewSession
           });
           
-          historyData.sort((a, b) => {
-            const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
-            const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-            return dateB - dateA;
-          });
+          historyData.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
 
           setHistory(historyData);
         } catch (error) {
@@ -124,7 +114,7 @@ export default function DashboardPage() {
     return (
       <div className="flex flex-col h-screen bg-background">
         <Header />
-        <main className="flex-grow py-8">
+        <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="space-y-4">
                 <Skeleton className="h-8 w-64" />
                 <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -147,7 +137,7 @@ export default function DashboardPage() {
     <>
       <div className="flex flex-col min-h-screen bg-background">
         <Header />
-        <main className="flex-grow py-8">
+        <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="space-y-8">
               <h1 className="text-3xl font-bold tracking-tight">Welcome back, {user.displayName || 'Ace'}!</h1>
               
@@ -234,5 +224,3 @@ export default function DashboardPage() {
     </>
   );
 }
-
-    
