@@ -64,7 +64,11 @@ export default function DashboardPage() {
           const querySnapshot = await getDocs(q);
           const historyData = querySnapshot.docs.map(doc => {
             const data = doc.data();
-            const createdAt = data.createdAt instanceof Timestamp ? data.createdAt.toDate() : new Date();
+            // Firestore Timestamps need to be converted to JS Date objects.
+            const createdAt = data.createdAt instanceof Timestamp 
+              ? data.createdAt.toDate() 
+              : (data.createdAt ? new Date(data.createdAt) : new Date());
+            
             return { 
                 id: doc.id, 
                 ...data,
