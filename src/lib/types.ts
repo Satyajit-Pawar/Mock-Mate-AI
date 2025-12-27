@@ -1,3 +1,4 @@
+
 import type { Timestamp } from "firebase/firestore";
 
 export interface User {
@@ -28,5 +29,5 @@ export interface InterviewSession {
   question: string;
   answer: string;
   feedback: InterviewFeedback;
-  createdAt: Timestamp;
+  createdAt: Timestamp | Date;
 }

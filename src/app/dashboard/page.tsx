@@ -1,10 +1,11 @@
+
 "use client";
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/use-auth';
 import { db } from '@/lib/firebase';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs, Timestamp } from 'firebase/firestore';
 import type { InterviewSession, InterviewType, InterviewDifficulty } from '@/lib/types';
 
 import Header from '@/components/shared/header';
@@ -61,14 +62,23 @@ export default function DashboardPage() {
             where("userId", "==", user.uid)
           );
           const querySnapshot = await getDocs(q);
-          const historyData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as InterviewSession[];
+          const historyData = querySnapshot.docs.map(doc => {
+            const data = doc.data();
+            // Ensure createdAt is a Firebase Timestamp, then convert to JS Date for components
+            const createdAt = data.createdAt instanceof Timestamp ? data.createdAt.toDate() : new Date();
+            return { 
+                id: doc.id, 
+                ...data,
+                // Make sure to pass a serializable Date object to client components
+                createdAt: createdAt
+            } as InterviewSession
+          }) as InterviewSession[];
           
           // Sort data on the client-side
           historyData.sort((a, b) => {
-            if (a.createdAt && b.createdAt) {
-              return b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime();
-            }
-            return 0;
+            const dateA = a.createdAt ? new Date(a.createdAt as any).getTime() : 0;
+            const dateB = b.createdAt ? new Date(b.createdAt as any).getTime() : 0;
+            return dateB - dateA;
           });
 
           setHistory(historyData);

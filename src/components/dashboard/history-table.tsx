@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -22,7 +23,7 @@ type HistoryTableProps = {
 
 export default function HistoryTable({ data, loading }: HistoryTableProps) {
   // Filter for sessions that have a valid 'createdAt' and 'feedback' property.
-  const validData = data.filter(session => session.createdAt && session.feedback && session.feedback.overallScore !== undefined);
+  const validData = data.filter(session => session.createdAt && session.feedback?.overallScore !== undefined);
   
   return (
     <Card className="h-full">
@@ -56,7 +57,7 @@ export default function HistoryTable({ data, loading }: HistoryTableProps) {
                                 <TableRow key={session.id}>
                                     <TableCell className="font-semibold">{session.sessionName || 'Practice Session'}</TableCell>
                                     <TableCell><Badge variant="outline" className="font-normal">{session.interviewType}</Badge></TableCell>
-                                    <TableCell>{format(session.createdAt.toDate(), "MMM d, yyyy")}</TableCell>
+                                    <TableCell>{format(new Date(session.createdAt as any), "MMM d, yyyy")}</TableCell>
                                     <TableCell className="text-right font-semibold text-primary">{session.feedback.overallScore}/10</TableCell>
                                 </TableRow>
                             ))
