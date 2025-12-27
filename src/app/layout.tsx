@@ -26,7 +26,9 @@ export default function RootLayout({
 
       <body className="min-h-screen w-full font-body antialiased overflow-x-hidden bg-background">
         <AuthProvider>
-          {children}
+          <div className="container">
+            {children}
+          </div>
           <Toaster />
         </AuthProvider>
       </body>

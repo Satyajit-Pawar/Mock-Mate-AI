@@ -5,7 +5,7 @@ export default function PrivacyPage() {
     <>
       <Header />
 
-      <div className="container max-w-4xl py-12 mx-auto">
+      <div className="max-w-4xl py-12 mx-auto">
         <h1 className="text-4xl font-bold mb-6">Privacy Policy</h1>
 
         <div className="prose dark:prose-invert max-w-none">
@@ -72,4 +72,3 @@ export default function PrivacyPage() {
     </>
   );
 }
-

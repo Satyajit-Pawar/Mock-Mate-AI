@@ -34,7 +34,7 @@ export default function InterviewPage() {
         return (
           <div className="flex flex-col h-screen">
             <Header />
-            <div className="container flex-grow py-8 flex items-center justify-center">
+            <div className="flex-grow py-8 flex items-center justify-center">
                 <div className="w-full max-w-3xl space-y-8">
                     <Skeleton className="h-12 w-1/2 mx-auto" />
                     <Skeleton className="h-24 w-full" />
@@ -51,7 +51,7 @@ export default function InterviewPage() {
         return (
             <div className="flex flex-col h-screen">
                 <Header />
-                <div className="container flex-grow py-8 flex items-center justify-center">
+                <div className="flex-grow py-8 flex items-center justify-center">
                     <div className="text-center">
                         <h1 className="text-2xl font-bold">Invalid Interview Type</h1>
                         <p className="text-muted-foreground">Please select a valid interview type from the dashboard.</p>
@@ -65,7 +65,7 @@ export default function InterviewPage() {
     return (
         <div className="flex flex-col h-screen bg-background">
             <Header />
-            <main className="flex-grow container py-8 flex items-center justify-center">
+            <main className="flex-grow py-8 flex items-center justify-center">
                 <InterviewPanel 
                     interviewType={interviewType} 
                     userId={user.uid} 

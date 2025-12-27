@@ -4,7 +4,7 @@ export default function TermsPage() {
   return (
     <>
       <Header />
-      <div className="container max-w-4xl py-12">
+      <div className="max-w-4xl py-12">
         <h1 className="text-4xl font-bold mb-4">Terms of Service</h1>
         <div className="prose dark:prose-invert max-w-none">
           <p>

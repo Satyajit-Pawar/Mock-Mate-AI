@@ -68,7 +68,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background">
-      <header className="container z-40">
+      <header className="z-40">
         <div className="flex h-20 items-center justify-between py-6">
           <Link href="/" className="flex items-center gap-2">
             <GraduationCap className="h-6 w-6 text-primary" />
@@ -82,7 +82,7 @@ export default function Home() {
         </div>
       </header>
       <main className="flex-grow">
-        <section className="container grid lg:grid-cols-2 place-items-center py-20 md:py-32 gap-10">
+        <section className="grid lg:grid-cols-2 place-items-center py-20 md:py-32 gap-10">
             <div className="text-center lg:text-start space-y-6">
                 <h1 className="text-4xl font-extrabold tracking-tight lg:text-6xl font-headline">
                     Ace Your Next Interview with AI
