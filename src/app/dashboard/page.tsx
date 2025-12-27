@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/use-auth';
 import { db } from '@/lib/firebase';
-import { collection, query, where, orderBy, getDocs } from 'firebase/firestore';
+import { collection, query, where, getDocs } from 'firebase/firestore';
 import type { InterviewSession, InterviewType, InterviewDifficulty } from '@/lib/types';
 
 import Header from '@/components/shared/header';
@@ -58,11 +58,19 @@ export default function DashboardPage() {
         try {
           const q = query(
             collection(db, "interviews"), 
-            where("userId", "==", user.uid),
-            orderBy("createdAt", "desc")
+            where("userId", "==", user.uid)
           );
           const querySnapshot = await getDocs(q);
           const historyData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })) as InterviewSession[];
+          
+          // Sort data on the client-side
+          historyData.sort((a, b) => {
+            if (a.createdAt && b.createdAt) {
+              return b.createdAt.toDate().getTime() - a.createdAt.toDate().getTime();
+            }
+            return 0;
+          });
+
           setHistory(historyData);
         } catch (error) {
           console.error("Error fetching interview history:", error);
