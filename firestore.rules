@@ -2,10 +2,12 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /interviews/{interviewId} {
-      // Users can only read their own interview data.
-      allow read: if request.auth != null && request.auth.uid == resource.data.userId;
       // Users can only create interview data for themselves.
       allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+      // Users can read or list their own interview data.
+      allow read: if request.auth != null && request.auth.uid == resource.data.userId;
+      // This rule is necessary to allow the query on the dashboard.
+      allow list: if request.auth != null && request.query.resource.data.userId == request.auth.uid;
     }
   }
 }
