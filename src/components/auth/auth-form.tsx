@@ -99,7 +99,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full" disabled={anyLoading} size="lg">
+          <Button type="submit" className="w-full" disabled={anyLoading} size="lg" suppressHydrationWarning>
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {mode === 'login' ? 'Log In' : 'Sign Up'}
           </Button>
@@ -115,7 +115,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
           </span>
         </div>
       </div>
-      <Button variant="outline" className="w-full" onClick={handleGoogleSignIn} disabled={anyLoading} size="lg">
+      <Button variant="outline" className="w-full" onClick={handleGoogleSignIn} disabled={anyLoading} size="lg" suppressHydrationWarning>
         {isGoogleLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <GoogleIcon />}
         Google
       </Button>
