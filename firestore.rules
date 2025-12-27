@@ -1,0 +1,11 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /interviews/{interviewId} {
+      // Users can only read their own interview data.
+      allow read: if request.auth != null && request.auth.uid == resource.data.userId;
+      // Users can only create interview data for themselves.
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+    }
+  }
+}
