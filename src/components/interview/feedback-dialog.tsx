@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
-import { ThumbsUp, ThumbsDown, Lightbulb, ArrowRight } from "lucide-react";
+import { ThumbsUp, ThumbsDown, Lightbulb, ArrowRight, LogOut } from "lucide-react";
 import type { InterviewFeedback } from "@/lib/types";
 
 type FeedbackDialogProps = {
@@ -18,9 +18,10 @@ type FeedbackDialogProps = {
   onOpenChange: (open: boolean) => void;
   feedback: InterviewFeedback;
   onNext: () => void;
+  onEnd: () => void;
 };
 
-export default function FeedbackDialog({ open, onOpenChange, feedback, onNext }: FeedbackDialogProps) {
+export default function FeedbackDialog({ open, onOpenChange, feedback, onNext, onEnd }: FeedbackDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-2xl">
@@ -65,7 +66,11 @@ export default function FeedbackDialog({ open, onOpenChange, feedback, onNext }:
             <div className="text-sm text-muted-foreground p-4 bg-muted/50 rounded-md">{feedback.summary}</div>
           </div>
         </div>
-        <DialogFooter>
+        <DialogFooter className="sm:justify-between">
+          <Button onClick={onEnd} variant="outline">
+            <LogOut className="mr-2 h-4 w-4" />
+            End Interview
+          </Button>
           <Button onClick={onNext} className="w-full sm:w-auto">
             Next Question <ArrowRight className="ml-2 h-4 w-4" />
           </Button>

@@ -5,6 +5,8 @@ import { generateQuestion } from "@/ai/flows/dynamic-question-generation";
 import { provideInstantFeedback } from "@/ai/flows/provide-instant-feedback";
 import { db } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { useRouter } from 'next/navigation';
+
 
 import {
   Card,
@@ -16,7 +18,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Loader2, Mic, StopCircle, Video } from "lucide-react";
+import { Loader2, Mic, StopCircle, Video, LogOut } from "lucide-react";
 import type { InterviewType, InterviewFeedback, InterviewDifficulty } from "@/lib/types";
 import FeedbackDialog from "./feedback-dialog";
 import { toast } from "@/hooks/use-toast";
@@ -57,6 +59,8 @@ export default function InterviewPanel({
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const recognitionRef = useRef<any>(null);
+  const router = useRouter();
+
 
   /* ✅ Camera permission (SSR safe) */
   useEffect(() => {
@@ -202,14 +206,27 @@ export default function InterviewPanel({
     setTimeout(getNewQuestion, 300);
   };
 
+  const handleEndInterview = () => {
+    router.push('/dashboard');
+  }
+
   return (
     <>
       <Card className="w-full max-w-4xl shadow-2xl">
-        <CardHeader className="text-center">
+        <CardHeader className="text-center relative">
           <CardTitle className="text-2xl">{sessionName}</CardTitle>
           <CardDescription>
             {interviewType} Interview - Answer the question below to the best of your ability.
           </CardDescription>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="absolute top-4 right-4"
+            onClick={handleEndInterview}
+          >
+            <LogOut className="mr-2 h-4 w-4" />
+            End Interview
+          </Button>
         </CardHeader>
 
         <CardContent className="space-y-6">
@@ -284,6 +301,7 @@ export default function InterviewPanel({
           onOpenChange={setIsDialogOpen}
           feedback={feedback}
           onNext={handleNext}
+          onEnd={handleEndInterview}
         />
       )}
     </>
