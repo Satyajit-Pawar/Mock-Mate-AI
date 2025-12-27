@@ -21,7 +21,11 @@ type HistoryTableProps = {
 };
 
 export default function HistoryTable({ data, loading }: HistoryTableProps) {
-  const validData = data.filter(session => session.createdAt && session.feedback?.overallScore !== undefined);
+  const validData = data.filter(session => 
+    session.createdAt && 
+    typeof session.createdAt.toDate === 'function' && 
+    session.feedback?.overallScore !== undefined
+  );
   
   return (
     <Card className="h-full">
