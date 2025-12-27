@@ -13,11 +13,11 @@ import {z} from 'genkit';
 
 const AnalyzeUserResponseInputSchema = z.object({
   question: z.string().describe('The interview question asked.'),
-  response: z.string().describe('The user\'s response to the question.'),
+  response: z.string().describe("The user's response to the question."),
   interviewType: z
     .string()
     .describe(
-      'The type of interview (Technical, HR, Behavioral, Fresher). This affects the evaluation criteria.'
+      'The type of interview (Technical, Behavioral, Fresher). This affects the evaluation criteria.'
     ),
 });
 export type AnalyzeUserResponseInput = z.infer<typeof AnalyzeUserResponseInputSchema>;

@@ -14,7 +14,7 @@ import {z} from 'genkit';
 const ProvideInstantFeedbackInputSchema = z.object({
   question: z.string().describe('The interview question that was asked.'),
   answer: z.string().describe("The user's answer to the question."),
-  interviewType: z.string().describe('The type of interview (Technical, HR, Behavioral, Fresher).'),
+  interviewType: z.string().describe('The type of interview (Technical, Behavioral, Fresher).'),
 });
 export type ProvideInstantFeedbackInput = z.infer<typeof ProvideInstantFeedbackInputSchema>;
 

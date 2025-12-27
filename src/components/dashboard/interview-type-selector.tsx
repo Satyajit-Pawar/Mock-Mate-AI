@@ -8,7 +8,6 @@ import type { InterviewType } from '@/lib/types';
 
 const interviewTypes: { type: InterviewType; title: string; description: string; icon: React.ReactNode }[] = [
   { type: 'Technical', title: 'Technical', description: 'Assess your coding and problem-solving skills.', icon: <Cpu className="h-8 w-8" /> },
-  { type: 'HR', title: 'HR Round', description: 'Evaluate your personality and cultural fit.', icon: <Users className="h-8 w-8" /> },
   { type: 'Behavioral', title: 'Behavioral', description: 'Demonstrate how you handle work situations.', icon: <MessageSquare className="h-8 w-8" /> },
   { type: 'Fresher', title: 'Fresher', description: 'General questions for entry-level candidates.', icon: <Briefcase className="h-8 w-8" /> },
 ];

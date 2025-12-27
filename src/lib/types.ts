@@ -7,7 +7,7 @@ export interface User {
   photoURL: string | null;
 }
 
-export type InterviewType = "Technical" | "HR" | "Behavioral" | "Fresher";
+export type InterviewType = "Technical" | "Behavioral" | "Fresher";
 export type InterviewDifficulty = "Easy" | "Medium" | "Hard";
 
 export interface InterviewFeedback {

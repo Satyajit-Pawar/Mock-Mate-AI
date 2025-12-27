@@ -16,7 +16,7 @@ const GenerateQuestionInputSchema = z.object({
   interviewType: z
     .string()
     .describe(
-      'The type of interview for which to generate a question (e.g., Technical, HR, Behavioral, Fresher).'
+      'The type of interview for which to generate a question (e.g., Technical, Behavioral, Fresher).'
     ),
   topic: z.string().optional().describe('A specific topic for the interview question (e.g., "React Hooks", "AWS S3").'),
   difficulty: z.string().optional().describe('The difficulty level of the question (e.g., "Easy", "Medium", "Hard").'),

@@ -46,7 +46,7 @@ export default function InterviewPage() {
         );
     }
 
-    const validTypes: InterviewType[] = ["Technical", "HR", "Behavioral", "Fresher"];
+    const validTypes: InterviewType[] = ["Technical", "Behavioral", "Fresher"];
     if (!validTypes.includes(interviewType)) {
         return (
             <div className="flex flex-col h-screen">
