@@ -4,7 +4,7 @@ import { AuthProvider } from '@/context/auth-context';
 import { Toaster } from '@/components/ui/toaster';
 
 export const metadata: Metadata = {
-  title: 'InterviewAce',
+  title: 'MockMate AI',
   description: 'AI-powered mock interview preparation platform.',
 };
 

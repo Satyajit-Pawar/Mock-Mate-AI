@@ -8,35 +8,35 @@ export default function TermsPage() {
         <h1 className="text-4xl font-bold mb-4">Terms of Service</h1>
         <div className="prose dark:prose-invert max-w-none">
           <p>
-            Welcome to InterviewAce! These terms and conditions outline the rules and regulations for the use of
-            InterviewAce's Website, located at this domain.
+            Welcome to MockMate AI! These terms and conditions outline the rules and regulations for the use of
+            MockMate AI's Website, located at this domain.
           </p>
 
           <p>
             By accessing this website we assume you accept these terms and conditions. Do not continue to use
-            InterviewAce if you do not agree to take all of the terms and conditions stated on this page.
+            MockMate AI if you do not agree to take all of the terms and conditions stated on this page.
           </p>
 
           <h2 className="text-2xl font-bold mt-6 mb-2">Cookies</h2>
           <p>
-            We employ the use of cookies. By accessing InterviewAce, you agreed to use cookies in agreement with
-            the InterviewAce's Privacy Policy.
+            We employ the use of cookies. By accessing MockMate AI, you agreed to use cookies in agreement with
+            the MockMate AI's Privacy Policy.
           </p>
 
           <h2 className="text-2xl font-bold mt-6 mb-2">License</h2>
           <p>
-            Unless otherwise stated, InterviewAce and/or its licensors own the intellectual property rights for
-            all material on InterviewAce. All intellectual property rights are reserved. You may access this
-            from InterviewAce for your own personal use subjected to restrictions set in these terms and
+            Unless otherwise stated, MockMate AI and/or its licensors own the intellectual property rights for
+            all material on MockMate AI. All intellectual property rights are reserved. You may access this
+            from MockMate AI for your own personal use subjected to restrictions set in these terms and
             conditions.
           </p>
 
           <p>You must not:</p>
           <ul>
-            <li>Republish material from InterviewAce</li>
-            <li>Sell, rent or sub-license material from InterviewAce</li>
-            <li>Reproduce, duplicate or copy material from InterviewAce</li>
-            <li>Redistribute content from InterviewAce</li>
+            <li>Republish material from MockMate AI</li>
+            <li>Sell, rent or sub-license material from MockMate AI</li>
+            <li>Reproduce, duplicate or copy material from MockMate AI</li>
+            <li>Redistribute content from MockMate AI</li>
           </ul>
 
           <p>This Agreement shall begin on the date hereof.</p>

@@ -31,7 +31,7 @@ export default function Home() {
         <div className="flex h-20 items-center justify-between py-6">
           <Link href="/" className="flex items-center gap-2">
             <GraduationCap className="h-6 w-6 text-primary" />
-            <span className="font-bold text-lg">InterviewAce</span>
+            <span className="font-bold text-lg">MockMate AI</span>
           </Link>
           <nav>
             <Button asChild>
@@ -72,7 +72,7 @@ export default function Home() {
         
         <section id="features" className="py-20 lg:py-32 bg-card">
           <div className="container">
-            <h2 className="text-3xl font-bold text-center lg:text-4xl mb-12">Why InterviewAce?</h2>
+            <h2 className="text-3xl font-bold text-center lg:text-4xl mb-12">Why MockMate AI?</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {features.map((feature, index) => (
                 <div key={index} className="flex flex-col items-center text-center p-6 rounded-lg">
@@ -88,7 +88,7 @@ export default function Home() {
       <footer className="py-6 md:px-8 md:py-0 bg-card border-t">
         <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} InterviewAce. All rights reserved.
+            © {new Date().getFullYear()} MockMate AI. All rights reserved.
           </p>
         </div>
       </footer>

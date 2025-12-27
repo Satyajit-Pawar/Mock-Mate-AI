@@ -28,7 +28,7 @@ export default function Header() {
       <div className="container flex h-14 items-center">
         <Link href="/dashboard" className="flex items-center gap-2 mr-6">
           <GraduationCap className="h-6 w-6 text-primary" />
-          <span className="font-bold">InterviewAce</span>
+          <span className="font-bold">MockMate AI</span>
         </Link>
         <div className="flex flex-1 items-center justify-end">
           <nav className="flex items-center gap-4">
