@@ -21,6 +21,8 @@ type HistoryTableProps = {
 };
 
 export default function HistoryTable({ data, loading }: HistoryTableProps) {
+  const validData = data.filter(session => session.createdAt);
+  
   return (
     <Card className="h-full">
         <CardHeader>
@@ -46,8 +48,8 @@ export default function HistoryTable({ data, loading }: HistoryTableProps) {
                               <TableCell className="text-right"><Skeleton className="h-4 w-10 ml-auto" /></TableCell>
                             </TableRow>
                           ))
-                        ) : data.length > 0 ? (
-                            data.map((session) => (
+                        ) : validData.length > 0 ? (
+                            validData.map((session) => (
                                 <TableRow key={session.id}>
                                     <TableCell className="font-medium">{format(session.createdAt.toDate(), "MMM d, yyyy")}</TableCell>
                                     <TableCell><Badge variant="outline" className="font-normal">{session.interviewType}</Badge></TableCell>

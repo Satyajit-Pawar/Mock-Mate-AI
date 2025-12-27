@@ -23,6 +23,7 @@ const chartConfig = {
 
 export default function PerformanceChart({ data }: PerformanceChartProps) {
   const chartData = data
+    .filter(session => session.createdAt)
     .map(session => ({
       date: format(session.createdAt.toDate(), "MMM d"),
       score: session.feedback.overallScore,
@@ -36,7 +37,7 @@ export default function PerformanceChart({ data }: PerformanceChartProps) {
         <CardDescription>Your average scores over your last interview sessions.</CardDescription>
     </CardHeader>
     <CardContent>
-        {data.length > 1 ? (
+        {chartData.length > 1 ? (
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
             <AreaChart accessibilityLayer data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
             <CartesianGrid vertical={false} />
