@@ -59,20 +59,26 @@ export default function DashboardPage() {
         try {
           const q = query(
             collection(db, "interviews"), 
-            where("userId", "==", user.uid),
-            orderBy("createdAt", "desc")
+            where("userId", "==", user.uid)
           );
 
           const querySnapshot = await getDocs(q);
           const historyData = querySnapshot.docs.map(doc => {
             const data = doc.data();
             // Firestore Timestamps need to be converted to JS Date objects.
-            const createdAt = data.createdAt instanceof Timestamp ? data.createdAt.toDate() : new Date();
+            const createdAt = data.createdAt instanceof Timestamp ? data.createdAt.toDate() : new Date(data.createdAt);
             return { 
                 id: doc.id, 
                 ...data,
                 createdAt: createdAt
             } as InterviewSession
+          });
+
+          // Sort the history data by date in descending order (most recent first)
+          historyData.sort((a, b) => {
+            const dateA = a.createdAt instanceof Date ? a.createdAt.getTime() : new Date(a.createdAt).getTime();
+            const dateB = b.createdAt instanceof Date ? b.createdAt.getTime() : new Date(b.createdAt).getTime();
+            return dateB - dateA;
           });
           
           setHistory(historyData);
@@ -138,7 +144,7 @@ export default function DashboardPage() {
   
   return (
     <>
-      <div className="flex flex-col min-h-screen bg-background">
+      <div className="flex flex-col min-h-screen bg-gradient-to-br from-primary/10 via-background to-background">
         <Header />
         <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="space-y-8">

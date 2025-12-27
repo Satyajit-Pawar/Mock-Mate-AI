@@ -22,7 +22,7 @@ export default function PerformanceChart({ data }: PerformanceChartProps) {
       date: format(new Date(session.createdAt), 'MMM d'),
       score: session.feedback.overallScore,
     }))
-    .reverse();
+    .reverse(); // Reverse to show chronological order in the chart
 
   return (
     <Card>
