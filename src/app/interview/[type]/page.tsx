@@ -7,6 +7,7 @@ import Header from '@/components/shared/header';
 import InterviewPanel from '@/components/interview/interview-panel';
 import type { InterviewType } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
 
 export default function InterviewPage() {
     const { user, loading } = useAuth();
