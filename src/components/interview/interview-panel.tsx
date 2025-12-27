@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useRef } from "react";
@@ -58,6 +59,7 @@ export default function InterviewPanel({
   const [hasCameraPermission, setHasCameraPermission] =
     useState<boolean | null>(null);
   const [isRecording, setIsRecording] = useState(false);
+  const hasFetchedQuestion = useRef(false);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const recognitionRef = useRef<any>(null);
@@ -116,7 +118,10 @@ export default function InterviewPanel({
   };
 
   useEffect(() => {
-    getNewQuestion();
+    if (!hasFetchedQuestion.current) {
+      getNewQuestion();
+      hasFetchedQuestion.current = true;
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [interviewType, topic, difficulty, resumeText]);
 
