@@ -16,7 +16,8 @@ const firebaseConfig = {
 const app = getApps().length ? getApp() : initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
-export const db = getFirestore(app);
+// Connect to the 'mock-mate-ai' database specifically.
+export const db = getFirestore(app, 'mock-mate-ai');
 export const googleProvider = new GoogleAuthProvider();
 
 // Initialize Analytics only on the client side
