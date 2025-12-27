@@ -1,59 +1,61 @@
 "use client";
 
-import { format } from "date-fns";
 import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { format } from 'date-fns';
+import type { InterviewSession } from '@/lib/types';
+import { Skeleton } from "../ui/skeleton";
 
 type PerformanceChartProps = {
-  data: any[];
+  data: InterviewSession[];
 };
 
 export default function PerformanceChart({ data }: PerformanceChartProps) {
-  // ✅ SAFELY transform Firestore data
-  const chartData =
-    data
-      ?.filter(
-        (session) =>
-          session?.createdAt &&
-          typeof session.createdAt.toDate === "function" &&
-          session?.feedback?.overallScore !== undefined
-      )
-      .map((session) => ({
-        date: format(session.createdAt.toDate(), "MMM d"),
-        score: session.feedback.overallScore,
-      }))
-      .reverse() || [];
-
-  if (chartData.length === 0) {
-    return (
-      <div className="flex h-64 items-center justify-center text-muted-foreground">
-        No interview data yet. Complete an interview to see your progress.
-      </div>
-    );
-  }
+  const chartData = data
+    .filter(session => session.createdAt && typeof session.createdAt.toDate === 'function' && session.feedback?.overallScore !== undefined)
+    .map(session => ({
+      date: format(session.createdAt.toDate(), 'MMM d'),
+      score: session.feedback.overallScore,
+    }))
+    .reverse();
 
   return (
-    <div className="h-64 w-full">
-      <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={chartData}>
-          <XAxis dataKey="date" />
-          <YAxis domain={[0, 10]} />
-          <Tooltip />
-          <Line
-            type="monotone"
-            dataKey="score"
-            stroke="#7c3aed"
-            strokeWidth={2}
-            dot={{ r: 4 }}
-          />
-        </LineChart>
-      </ResponsiveContainer>
-    </div>
+    <Card className="h-full">
+      <CardHeader>
+        <CardTitle>Performance Over Time</CardTitle>
+        <CardDescription>Your average interview scores from the last few sessions.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        {chartData.length > 0 ? (
+          <div className="h-64 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={chartData} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
+                <XAxis dataKey="date" stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                <YAxis domain={[0, 10]} stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: 'hsl(var(--background))',
+                    border: '1px solid hsl(var(--border))',
+                    borderRadius: 'var(--radius)',
+                  }}
+                  labelStyle={{ color: 'hsl(var(--foreground))' }}
+                />
+                <Line type="monotone" dataKey="score" stroke="hsl(var(--primary))" strokeWidth={2} dot={{ r: 4, fill: 'hsl(var(--primary))' }} activeDot={{ r: 6 }} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        ) : (
+          <div className="flex h-64 items-center justify-center rounded-md border border-dashed">
+            <p className="text-sm text-muted-foreground">Complete an interview to see your progress chart.</p>
+          </div>
+        )}
+      </CardContent>
+    </Card>
   );
 }
