@@ -24,6 +24,7 @@ export interface InterviewSession {
   sessionName: string;
   topic?: string;
   difficulty?: InterviewDifficulty;
+  resumeText?: string;
   question: string;
   answer: string;
   feedback: InterviewFeedback;

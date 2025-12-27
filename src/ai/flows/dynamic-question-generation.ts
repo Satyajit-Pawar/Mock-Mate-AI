@@ -19,7 +19,8 @@ const GenerateQuestionInputSchema = z.object({
       'The type of interview for which to generate a question (e.g., Technical, HR, Behavioral, Fresher).'
     ),
   topic: z.string().optional().describe('A specific topic for the interview question (e.g., "React Hooks", "AWS S3").'),
-  difficulty: z.string().optional().describe('The difficulty level of the question (e.g., "Easy", "Medium", "Hard").')
+  difficulty: z.string().optional().describe('The difficulty level of the question (e.g., "Easy", "Medium", "Hard").'),
+  resumeText: z.string().optional().describe('The text content of the user\'s resume.'),
 });
 export type GenerateQuestionInput = z.infer<typeof GenerateQuestionInputSchema>;
 
@@ -44,6 +45,13 @@ const prompt = ai.definePrompt({
   {{/if}}
   {{#if difficulty}}
   The question should be of {{difficulty}} difficulty.
+  {{/if}}
+  {{#if resumeText}}
+  Base the question on the candidate's experience and skills as detailed in their resume below.
+  ---
+  Resume:
+  {{{resumeText}}}
+  ---
   {{/if}}
   The question should be challenging and insightful, designed to assess the candidate's skills and experience. Focus on open-ended questions that require the candidate to elaborate. The answer should be 1-3 sentences.`,
 });

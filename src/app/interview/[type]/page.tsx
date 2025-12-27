@@ -19,6 +19,7 @@ export default function InterviewPage() {
     const sessionName = searchParams.get('sessionName') || 'Practice Session';
     const topic = searchParams.get('topic');
     const difficulty = (searchParams.get('difficulty') as InterviewDifficulty) || 'Medium';
+    const resumeText = searchParams.get('resumeText');
 
     // Capitalize first letter to match the InterviewType definition
     const interviewType = interviewTypeParam.charAt(0).toUpperCase() + interviewTypeParam.slice(1) as InterviewType;
@@ -71,6 +72,7 @@ export default function InterviewPage() {
                     sessionName={decodeURIComponent(sessionName)}
                     topic={topic ? decodeURIComponent(topic) : undefined}
                     difficulty={difficulty}
+                    resumeText={resumeText ? decodeURIComponent(resumeText) : undefined}
                 />
             </main>
         </div>

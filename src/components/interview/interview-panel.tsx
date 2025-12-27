@@ -38,6 +38,7 @@ type InterviewPanelProps = {
   sessionName: string;
   topic?: string;
   difficulty?: InterviewDifficulty;
+  resumeText?: string;
 };
 
 export default function InterviewPanel({
@@ -45,7 +46,8 @@ export default function InterviewPanel({
   userId,
   sessionName,
   topic,
-  difficulty
+  difficulty,
+  resumeText,
 }: InterviewPanelProps) {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
@@ -99,7 +101,7 @@ export default function InterviewPanel({
     setFeedback(null);
 
     try {
-      const result = await generateQuestion({ interviewType, topic, difficulty });
+      const result = await generateQuestion({ interviewType, topic, difficulty, resumeText });
       setQuestion(result.question);
     } catch {
       setQuestion("Failed to generate question. Please try again.");
@@ -116,7 +118,7 @@ export default function InterviewPanel({
   useEffect(() => {
     getNewQuestion();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [interviewType, topic, difficulty]);
+  }, [interviewType, topic, difficulty, resumeText]);
 
   /* ✅ Start recording */
   const startRecording = () => {

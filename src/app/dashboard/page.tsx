@@ -30,6 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Textarea } from '@/components/ui/textarea';
 
 
 export default function DashboardPage() {
@@ -42,6 +43,7 @@ export default function DashboardPage() {
   const [sessionName, setSessionName] = useState('');
   const [topic, setTopic] = useState('');
   const [difficulty, setDifficulty] = useState<InterviewDifficulty>('Medium');
+  const [resumeText, setResumeText] = useState('');
 
   useEffect(() => {
     if (!loading && !user) {
@@ -77,6 +79,7 @@ export default function DashboardPage() {
     setSessionName('');
     setTopic('');
     setDifficulty('Medium');
+    setResumeText('');
     setIsDialogVisible(true);
   };
 
@@ -88,6 +91,9 @@ export default function DashboardPage() {
         searchParams.set('topic', topic);
       }
       searchParams.set('difficulty', difficulty);
+      if (resumeText) {
+        searchParams.set('resumeText', resumeText);
+      }
 
       router.push(`/interview/${selectedInterviewType.toLowerCase()}?${searchParams.toString()}`);
     }
@@ -136,7 +142,7 @@ export default function DashboardPage() {
         </main>
       </div>
       <Dialog open={isDialogVisible} onOpenChange={setIsDialogVisible}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-lg">
           <DialogHeader>
             <DialogTitle>Start New Interview</DialogTitle>
             <DialogDescription>
@@ -184,6 +190,19 @@ export default function DashboardPage() {
                         <SelectItem value="Hard">Hard</SelectItem>
                     </SelectContent>
                 </Select>
+            </div>
+             <div className="grid grid-cols-4 items-start gap-4">
+                <Label htmlFor="resume" className="text-right pt-2">
+                    Resume (Optional)
+                </Label>
+                <Textarea
+                    id="resume"
+                    value={resumeText}
+                    onChange={(e) => setResumeText(e.target.value)}
+                    className="col-span-3"
+                    placeholder="Paste your resume text here to get questions based on your experience."
+                    rows={6}
+                />
             </div>
           </div>
           <DialogFooter>
