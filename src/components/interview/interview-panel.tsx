@@ -62,7 +62,7 @@ export default function InterviewPanel({ interviewType, userId }: InterviewPanel
         try {
             const result = await generateQuestion({ interviewType });
             setQuestion(result.question);
-        } catch (error) => {
+        } catch (error) {
             console.error("Failed to generate question", error);
             setQuestion("Sorry, I couldn't think of a question. Please try again.");
             toast({
