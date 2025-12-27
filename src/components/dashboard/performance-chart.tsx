@@ -6,7 +6,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import type { InterviewSession } from "@/lib/types";
 import { format } from "date-fns";
 
@@ -30,47 +30,64 @@ export default function PerformanceChart({ data }: PerformanceChartProps) {
     .reverse();
 
   return (
-    <section>
-      <h2 className="text-2xl font-bold tracking-tight mb-4">Your Performance</h2>
-      <Card>
-        <CardHeader>
-          <CardTitle>Overall Score Trend</CardTitle>
-          <CardDescription>Your average scores over your last interview sessions.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          {data.length > 0 ? (
-            <ChartContainer config={chartConfig} className="h-[250px] w-full">
-              <BarChart accessibilityLayer data={chartData} margin={{ top: 20, right: 20, left: -10, bottom: 0 }}>
-                <CartesianGrid vertical={false} />
-                <XAxis
-                  dataKey="date"
-                  tickLine={false}
-                  tickMargin={10}
-                  axisLine={false}
-                  tickFormatter={(value) => value}
+    <Card>
+    <CardHeader>
+        <CardTitle>Performance Trend</CardTitle>
+        <CardDescription>Your average scores over your last interview sessions.</CardDescription>
+    </CardHeader>
+    <CardContent>
+        {data.length > 1 ? (
+        <ChartContainer config={chartConfig} className="h-[300px] w-full">
+            <AreaChart accessibilityLayer data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+            <CartesianGrid vertical={false} />
+            <XAxis
+                dataKey="date"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+                tickFormatter={(value) => value}
+            />
+            <YAxis
+                dataKey="score"
+                domain={[0, 10]}
+                tickLine={false}
+                axisLine={false}
+                tickMargin={10}
+            />
+            <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent indicator="dot" />}
+            />
+            <defs>
+                <linearGradient id="fillScore" x1="0" y1="0" x2="0" y2="1">
+                <stop
+                    offset="5%"
+                    stopColor="var(--color-score)"
+                    stopOpacity={0.8}
                 />
-                 <YAxis
-                    dataKey="score"
-                    domain={[0, 10]}
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={10}
-                 />
-                <ChartTooltip
-                  cursor={false}
-                  content={<ChartTooltipContent indicator="dot" />}
+                <stop
+                    offset="95%"
+                    stopColor="var(--color-score)"
+                    stopOpacity={0.1}
                 />
-                <Bar dataKey="score" fill="var(--color-score)" radius={4} />
-              </BarChart>
-            </ChartContainer>
-          ) : (
-            <div className="flex flex-col items-center justify-center h-[250px] text-center bg-muted/50 rounded-lg">
-                <p className="font-semibold">No interview data yet.</p>
-                <p className="text-sm text-muted-foreground">Complete an interview to see your performance chart.</p>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-    </section>
+                </linearGradient>
+            </defs>
+            <Area 
+                dataKey="score" 
+                type="natural"
+                fill="url(#fillScore)"
+                stroke="var(--color-score)"
+                stackId="a" 
+            />
+            </AreaChart>
+        </ChartContainer>
+        ) : (
+        <div className="flex flex-col items-center justify-center h-[300px] text-center bg-muted/50 rounded-lg p-6">
+            <p className="font-semibold text-lg">Not enough data yet.</p>
+            <p className="text-sm text-muted-foreground">Complete at least two interviews to see your performance trend.</p>
+        </div>
+        )}
+    </CardContent>
+    </Card>
   );
 }

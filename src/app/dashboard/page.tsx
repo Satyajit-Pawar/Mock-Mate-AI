@@ -12,6 +12,7 @@ import InterviewTypeSelector from '@/components/dashboard/interview-type-selecto
 import PerformanceChart from '@/components/dashboard/performance-chart';
 import HistoryTable from '@/components/dashboard/history-table';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function DashboardPage() {
   const { user, loading } = useAuth();
@@ -50,14 +51,23 @@ export default function DashboardPage() {
 
   if (loading || !user) {
     return (
-      <div className="flex flex-col h-screen">
+      <div className="flex flex-col h-screen bg-background">
         <Header />
-        <div className="container py-8 space-y-8">
-            <h1 className="text-3xl font-bold tracking-tight"><Skeleton className="h-8 w-64" /></h1>
-            <Skeleton className="h-40 w-full" />
-            <Skeleton className="h-64 w-full" />
-            <Skeleton className="h-64 w-full" />
-        </div>
+        <main className="flex-grow container py-8">
+            <div className="space-y-4">
+                <Skeleton className="h-8 w-64" />
+                <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+                    <Skeleton className="h-48 w-full" />
+                    <Skeleton className="h-48 w-full" />
+                    <Skeleton className="h-48 w-full" />
+                    <Skeleton className="h-48 w-full" />
+                </div>
+                <div className="grid gap-8 md:grid-cols-2">
+                    <Skeleton className="h-80 w-full" />
+                    <Skeleton className="h-80 w-full" />
+                </div>
+            </div>
+        </main>
       </div>
     );
   }
@@ -66,11 +76,15 @@ export default function DashboardPage() {
     <div className="flex flex-col min-h-screen bg-background">
       <Header />
       <main className="flex-grow container py-8">
-        <div className="space-y-12">
-          <h1 className="text-3xl font-bold tracking-tight">Welcome, {user.displayName || 'Ace'}!</h1>
-          <InterviewTypeSelector />
-          <PerformanceChart data={history} />
-          <HistoryTable data={history} loading={dataLoading} />
+        <div className="space-y-8">
+            <h1 className="text-3xl font-bold tracking-tight">Welcome back, {user.displayName || 'Ace'}!</h1>
+            
+            <InterviewTypeSelector />
+
+            <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-2">
+              <PerformanceChart data={history} />
+              <HistoryTable data={history} loading={dataLoading} />
+            </div>
         </div>
       </main>
     </div>

@@ -6,10 +6,10 @@ import { provideInstantFeedback } from '@/ai/flows/provide-instant-feedback';
 import { db } from '@/lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Loader2, Mic, StopCircle } from 'lucide-react';
+import { Loader2, Mic, StopCircle, Video } from 'lucide-react';
 import type { InterviewType, InterviewFeedback } from '@/lib/types';
 import FeedbackDialog from './feedback-dialog';
 import { toast } from '@/hooks/use-toast';
@@ -99,12 +99,11 @@ export default function InterviewPanel({ interviewType, userId }: InterviewPanel
                         interimTranscript += event.results[i][0].transcript;
                     }
                 }
-                setAnswer(prev => prev + finalTranscript + interimTranscript);
+                setAnswer(prev => prev + finalTranscript + interimTranscript.trimStart());
             };
             
             recognitionRef.current.start();
             setIsRecording(true);
-            setAnswer('');
         } else {
             toast({
                 variant: 'destructive',
@@ -170,49 +169,47 @@ export default function InterviewPanel({ interviewType, userId }: InterviewPanel
 
     return (
         <>
-            <Card className="w-full max-w-4xl shadow-lg">
-                <CardHeader>
-                    <CardTitle className="text-2xl text-center">
-                        {interviewType} Mock Interview
+            <Card className="w-full max-w-4xl shadow-2xl shadow-primary/10">
+                <CardHeader className="text-center">
+                    <CardTitle className="text-2xl">
+                        {interviewType} Interview
                     </CardTitle>
+                    <CardDescription>Answer the question below to the best of your ability.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-6">
-                    <div className="p-6 border rounded-lg bg-muted/40 min-h-[100px] flex items-center justify-center">
+                    <div className="p-6 border rounded-lg bg-muted/30 min-h-[120px] flex items-center justify-center shadow-inner">
                         {isLoading === 'question' ? (
                             <div className="space-y-2 w-full">
-                                <Skeleton className="h-5 w-3/4" />
-                                <Skeleton className="h-5 w-1/2" />
+                                <Skeleton className="h-5 w-3/4 mx-auto" />
+                                <Skeleton className="h-5 w-1/2 mx-auto" />
                             </div>
                         ) : (
-                            <p className="text-lg font-medium text-center">{question}</p>
+                            <p className="text-xl font-semibold text-center leading-relaxed">{question}</p>
                         )}
                     </div>
                     
                     <div className="grid md:grid-cols-2 gap-6">
-                        <div className="relative aspect-video bg-black rounded-lg overflow-hidden">
+                        <div className="relative aspect-video bg-muted rounded-lg overflow-hidden border">
                             <video ref={videoRef} className="w-full h-full object-cover" autoPlay muted />
                             {hasCameraPermission === false && (
-                                <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-                                    <Alert variant="destructive" className="w-4/5">
-                                        <AlertTitle>Camera Access Required</AlertTitle>
-                                        <AlertDescription>
-                                            Please allow camera and mic access to use this feature.
-                                        </AlertDescription>
-                                    </Alert>
+                                <div className="absolute inset-0 flex flex-col items-center justify-center bg-background/80 p-4 text-center">
+                                    <Video className="h-10 w-10 text-muted-foreground mb-2" />
+                                    <p className="font-semibold">Camera Access Denied</p>
+                                    <p className="text-sm text-muted-foreground">Please allow camera and mic access in your browser to record.</p>
                                 </div>
                             )}
                         </div>
 
-                        <div className="p-4 border rounded-lg bg-muted/40 flex flex-col">
-                            <Textarea
-                                placeholder={isRecording ? "Listening..." : "Your transcribed answer will appear here. You can also type your answer."}
+                        <div className="flex flex-col gap-4">
+                             <Textarea
+                                placeholder={isRecording ? "Listening..." : "Your transcribed answer will appear here, or you can type directly."}
                                 value={answer}
                                 onChange={(e) => setAnswer(e.target.value)}
-                                className="flex-grow bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
-                                rows={8}
-                                disabled={isLoading !== false}
+                                className="flex-grow text-base"
+                                rows={10}
+                                disabled={isLoading !== false || isRecording}
                             />
-                            <div className="flex items-center justify-center pt-4">
+                            <div className="flex items-center justify-center gap-4">
                                 {!isRecording ? (
                                     <Button onClick={startRecording} disabled={isLoading !== false || hasCameraPermission !== true}>
                                         <Mic className="mr-2" /> Start Recording
@@ -227,8 +224,8 @@ export default function InterviewPanel({ interviewType, userId }: InterviewPanel
                     </div>
 
                 </CardContent>
-                <CardFooter className="flex justify-end">
-                    <Button onClick={handleSubmit} disabled={isLoading !== false || isRecording}>
+                <CardFooter className="border-t pt-6 flex justify-end">
+                    <Button onClick={handleSubmit} disabled={isLoading !== false || isRecording || !answer.trim()} size="lg">
                         {isLoading === 'feedback' && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                         Submit Answer
                     </Button>
