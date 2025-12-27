@@ -5,6 +5,24 @@
       "description": "A person in a professional setting being interviewed.",
       "imageUrl": "https://images.unsplash.com/photo-1758518730327-98070967caab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxpbnRlcnZpZXclMjBwcm9mZXNzaW9uYWx8ZW58MHx8fHwxNzY2NzQxNDE4fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "interview professional"
+    },
+    {
+      "id": "testimonial-1",
+      "description": "A smiling person looking at the camera.",
+      "imageUrl": "https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8c21pbGluZyUyMHBlcnNvbnxlbnwwfHx8fDE3NjY3NjIzNTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "smiling person"
+    },
+    {
+      "id": "testimonial-2",
+      "description": "A person in a professional headshot.",
+      "imageUrl": "https://images.unsplash.com/photo-1685760259914-ee8d2c92d2e0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxwcm9mZXNzaW9uYWwlMjBoZWFkc2hvdHxlbnwwfHx8fDE3NjY4MDc0NDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "professional headshot"
+    },
+    {
+      "id": "testimonial-3",
+      "description": "A person looking happy.",
+      "imageUrl": "https://images.unsplash.com/photo-1525186402429-b4ff38bedec6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxoYXBweSUyMHBlcnNvbnxlbnwwfHx8fDE3NjY4MTI1NjZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "happy person"
     }
   ]
 }
