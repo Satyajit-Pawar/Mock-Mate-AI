@@ -34,8 +34,9 @@ export default function HistoryTable({ data, loading }: HistoryTableProps) {
                 <Table>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Date</TableHead>
+                            <TableHead>Session</TableHead>
                             <TableHead>Type</TableHead>
+                            <TableHead>Date</TableHead>
                             <TableHead className="text-right">Score</TableHead>
                         </TableRow>
                     </TableHeader>
@@ -43,22 +44,24 @@ export default function HistoryTable({ data, loading }: HistoryTableProps) {
                         {loading ? (
                           Array.from({ length: 5 }).map((_, i) => (
                             <TableRow key={i}>
-                              <TableCell><Skeleton className="h-4 w-24" /></TableCell>
+                              <TableCell><Skeleton className="h-4 w-28" /></TableCell>
                               <TableCell><Skeleton className="h-6 w-20 rounded-full" /></TableCell>
+                              <TableCell><Skeleton className="h-4 w-24" /></TableCell>
                               <TableCell className="text-right"><Skeleton className="h-4 w-10 ml-auto" /></TableCell>
                             </TableRow>
                           ))
                         ) : validData.length > 0 ? (
                             validData.map((session) => (
                                 <TableRow key={session.id}>
-                                    <TableCell className="font-medium">{format(session.createdAt.toDate(), "MMM d, yyyy")}</TableCell>
+                                    <TableCell className="font-semibold">{session.sessionName || 'Practice Session'}</TableCell>
                                     <TableCell><Badge variant="outline" className="font-normal">{session.interviewType}</Badge></TableCell>
+                                    <TableCell>{format(session.createdAt.toDate(), "MMM d, yyyy")}</TableCell>
                                     <TableCell className="text-right font-semibold text-primary">{session.feedback.overallScore}/10</TableCell>
                                 </TableRow>
                             ))
                         ) : (
                             <TableRow>
-                                <TableCell colSpan={3} className="h-24 text-center text-muted-foreground">
+                                <TableCell colSpan={4} className="h-24 text-center text-muted-foreground">
                                     You haven't completed any interviews yet.
                                 </TableCell>
                             </TableRow>

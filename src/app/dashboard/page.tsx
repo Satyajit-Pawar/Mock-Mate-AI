@@ -5,20 +5,33 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/use-auth';
 import { db } from '@/lib/firebase';
 import { collection, query, where, orderBy, getDocs } from 'firebase/firestore';
-import type { InterviewSession } from '@/lib/types';
+import type { InterviewSession, InterviewType } from '@/lib/types';
 
 import Header from '@/components/shared/header';
 import InterviewTypeSelector from '@/components/dashboard/interview-type-selector';
 import PerformanceChart from '@/components/dashboard/performance-chart';
 import HistoryTable from '@/components/dashboard/history-table';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Label } from '@/components/ui/label';
 
 export default function DashboardPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
   const [history, setHistory] = useState<InterviewSession[]>([]);
   const [dataLoading, setDataLoading] = useState(true);
+  const [isDialogVisible, setIsDialogVisible] = useState(false);
+  const [selectedInterviewType, setSelectedInterviewType] = useState<InterviewType | null>(null);
+  const [sessionName, setSessionName] = useState('');
 
   useEffect(() => {
     if (!loading && !user) {
@@ -49,6 +62,21 @@ export default function DashboardPage() {
     }
   }, [user]);
 
+  const handleStartInterview = (type: InterviewType) => {
+    setSelectedInterviewType(type);
+    setSessionName('');
+    setIsDialogVisible(true);
+  };
+
+  const handleConfirmStart = () => {
+    if (selectedInterviewType) {
+      const encodedSessionName = encodeURIComponent(sessionName || `Practice - ${new Date().toLocaleDateString()}`);
+      router.push(`/interview/${selectedInterviewType.toLowerCase()}?sessionName=${encodedSessionName}`);
+    }
+    setIsDialogVisible(false);
+  };
+
+
   if (loading || !user) {
     return (
       <div className="flex flex-col h-screen bg-background">
@@ -73,20 +101,51 @@ export default function DashboardPage() {
   }
   
   return (
-    <div className="flex flex-col min-h-screen bg-background">
-      <Header />
-      <main className="flex-grow container py-8">
-        <div className="space-y-8">
-            <h1 className="text-3xl font-bold tracking-tight">Welcome back, {user.displayName || 'Ace'}!</h1>
-            
-            <InterviewTypeSelector />
+    <>
+      <div className="flex flex-col min-h-screen bg-background">
+        <Header />
+        <main className="flex-grow container py-8">
+          <div className="space-y-8">
+              <h1 className="text-3xl font-bold tracking-tight">Welcome back, {user.displayName || 'Ace'}!</h1>
+              
+              <InterviewTypeSelector onSelect={handleStartInterview} />
 
-            <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-2">
-              <PerformanceChart data={history} />
-              <HistoryTable data={history} loading={dataLoading} />
+              <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-2">
+                <PerformanceChart data={history} />
+                <HistoryTable data={history} loading={dataLoading} />
+              </div>
+          </div>
+        </main>
+      </div>
+      <Dialog open={isDialogVisible} onOpenChange={setIsDialogVisible}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Start New Interview</DialogTitle>
+            <DialogDescription>
+              Give this interview session a name to track your progress.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="session-name" className="text-right">
+                Session Name
+              </Label>
+              <Input
+                id="session-name"
+                value={sessionName}
+                onChange={(e) => setSessionName(e.target.value)}
+                className="col-span-3"
+                placeholder={`e.g., "Google On-site Prep"`}
+              />
             </div>
-        </div>
-      </main>
-    </div>
+          </div>
+          <DialogFooter>
+            <Button type="button" onClick={handleConfirmStart}>
+              Start
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }

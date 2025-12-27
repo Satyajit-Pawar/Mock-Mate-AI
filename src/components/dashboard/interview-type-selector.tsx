@@ -13,7 +13,12 @@ const interviewTypes: { type: InterviewType; title: string; description: string;
   { type: 'Fresher', title: 'Fresher', description: 'General questions for entry-level candidates.', icon: <Briefcase className="h-8 w-8" /> },
 ];
 
-export default function InterviewTypeSelector() {
+type InterviewTypeSelectorProps = {
+  onSelect: (type: InterviewType) => void;
+};
+
+
+export default function InterviewTypeSelector({ onSelect }: InterviewTypeSelectorProps) {
   return (
     <section>
       <h2 className="text-2xl font-bold tracking-tight mb-4">Start a New Interview</h2>
@@ -28,10 +33,8 @@ export default function InterviewTypeSelector() {
                     </div>
                 </CardContent>
                 <div className="px-6 pb-6">
-                    <Button asChild variant="secondary" className="w-full justify-start">
-                        <Link href={`/interview/${it.type.toLowerCase()}`}>
-                            Start Session <ArrowRight className="ml-auto group-hover:translate-x-1 transition-transform" />
-                        </Link>
+                    <Button onClick={() => onSelect(it.type)} variant="secondary" className="w-full justify-start">
+                        Start Session <ArrowRight className="ml-auto group-hover:translate-x-1 transition-transform" />
                     </Button>
                 </div>
             </Card>

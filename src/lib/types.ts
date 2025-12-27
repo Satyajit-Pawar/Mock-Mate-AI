@@ -20,6 +20,7 @@ export interface InterviewSession {
   id: string;
   userId: string;
   interviewType: InterviewType;
+  sessionName: string;
   question: string;
   answer: string;
   feedback: InterviewFeedback;

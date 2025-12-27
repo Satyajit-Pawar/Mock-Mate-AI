@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/hooks/use-auth';
 import Header from '@/components/shared/header';
 import InterviewPanel from '@/components/interview/interview-panel';
@@ -13,7 +13,10 @@ export default function InterviewPage() {
     const { user, loading } = useAuth();
     const router = useRouter();
     const params = useParams();
+    const searchParams = useSearchParams();
+
     const interviewTypeParam = Array.isArray(params.type) ? params.type[0] : params.type;
+    const sessionName = searchParams.get('sessionName') || 'Practice Session';
     
     // Capitalize first letter to match the InterviewType definition
     const interviewType = interviewTypeParam.charAt(0).toUpperCase() + interviewTypeParam.slice(1) as InterviewType;
@@ -60,7 +63,11 @@ export default function InterviewPage() {
         <div className="flex flex-col h-screen bg-background">
             <Header />
             <main className="flex-grow container py-8 flex items-center justify-center">
-                <InterviewPanel interviewType={interviewType} userId={user.uid} />
+                <InterviewPanel 
+                    interviewType={interviewType} 
+                    userId={user.uid} 
+                    sessionName={decodeURIComponent(sessionName)}
+                />
             </main>
         </div>
     );

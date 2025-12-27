@@ -33,11 +33,13 @@ declare global {
 type InterviewPanelProps = {
   interviewType: InterviewType;
   userId: string;
+  sessionName: string;
 };
 
 export default function InterviewPanel({
   interviewType,
   userId,
+  sessionName
 }: InterviewPanelProps) {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
@@ -172,6 +174,7 @@ export default function InterviewPanel({
       await addDoc(collection(db, "interviews"), {
         userId,
         interviewType,
+        sessionName,
         question,
         answer,
         feedback: feedbackResult,
@@ -197,9 +200,9 @@ export default function InterviewPanel({
     <>
       <Card className="w-full max-w-4xl shadow-2xl">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl">{interviewType} Interview</CardTitle>
+          <CardTitle className="text-2xl">{sessionName}</CardTitle>
           <CardDescription>
-            Answer the question below to the best of your ability.
+            {interviewType} Interview - Answer the question below to the best of your ability.
           </CardDescription>
         </CardHeader>
 
