@@ -4,19 +4,23 @@ import { GraduationCap } from 'lucide-react';
 
 export default function SignupPage() {
   return (
-    <div className="container flex h-screen w-screen flex-col items-center justify-center">
-      <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-        <div className="flex flex-col space-y-2 text-center">
-          <GraduationCap className="mx-auto h-8 w-8 text-primary" />
-          <h1 className="text-2xl font-semibold tracking-tight">
+    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-primary/10 via-background to-background">
+      <div className="w-full max-w-md rounded-2xl border bg-card p-8 shadow-lg">
+        <div className="flex flex-col items-center text-center space-y-3">
+          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
+            <GraduationCap className="h-8 w-8 text-primary" />
+          </div>
+          <h1 className="text-2xl font-bold tracking-tight">
             Create an account
           </h1>
           <p className="text-sm text-muted-foreground">
             Enter your email and password to get started
           </p>
         </div>
-        <AuthForm mode="signup" />
-        <p className="px-8 text-center text-sm text-muted-foreground">
+        <div className="mt-8">
+          <AuthForm mode="signup" />
+        </div>
+        <p className="mt-8 px-8 text-center text-sm text-muted-foreground">
           By clicking continue, you agree to our{" "}
           <Link href="/terms" className="underline underline-offset-4 hover:text-primary">
             Terms of Service

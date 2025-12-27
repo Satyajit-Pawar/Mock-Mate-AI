@@ -99,7 +99,7 @@ export default function AuthForm({ mode }: AuthFormProps) {
               </FormItem>
             )}
           />
-          <Button type="submit" className="w-full" disabled={anyLoading}>
+          <Button type="submit" className="w-full" disabled={anyLoading} size="lg">
             {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {mode === 'login' ? 'Log In' : 'Sign Up'}
           </Button>
@@ -110,16 +110,16 @@ export default function AuthForm({ mode }: AuthFormProps) {
           <span className="w-full border-t" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
+          <span className="bg-card px-2 text-muted-foreground">
             Or continue with
           </span>
         </div>
       </div>
-      <Button variant="outline" className="w-full" onClick={handleGoogleSignIn} disabled={anyLoading}>
+      <Button variant="outline" className="w-full" onClick={handleGoogleSignIn} disabled={anyLoading} size="lg">
         {isGoogleLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <GoogleIcon />}
         Google
       </Button>
-      <p className="mt-4 text-center text-sm text-muted-foreground">
+      <p className="mt-6 text-center text-sm text-muted-foreground">
         {mode === 'login' ? "Don't have an account? " : "Already have an account? "}
         <Link href={mode === 'login' ? '/signup' : '/login'} className="underline hover:text-primary">
           {mode === 'login' ? 'Sign Up' : 'Log In'}
