@@ -13,16 +13,16 @@ import {z} from 'genkit';
 
 const ProvideInstantFeedbackInputSchema = z.object({
   question: z.string().describe('The interview question that was asked.'),
-  answer: z.string().describe('The user\'s answer to the question.'),
+  answer: z.string().describe("The user's answer to the question."),
   interviewType: z.string().describe('The type of interview (Technical, HR, Behavioral, Fresher).'),
 });
 export type ProvideInstantFeedbackInput = z.infer<typeof ProvideInstantFeedbackInputSchema>;
 
 const ProvideInstantFeedbackOutputSchema = z.object({
-  strengths: z.string().describe('Strengths of the answer.'),
-  weaknesses: z.string().describe('Weaknesses of the answer.'),
-  suggestions: z.string().describe('Specific suggestions for improvement.'),
-  overallScore: z.number().describe('An overall score for the answer (0-100).'),
+  overallScore: z.number().min(0).max(10).describe('An overall score for the answer, on a scale of 0 to 10.'),
+  strengths: z.array(z.string()).describe('A list of bullet points highlighting the strengths of the answer.'),
+  areasForImprovement: z.array(z.string()).describe('A list of bullet points suggesting areas for improvement.'),
+  summary: z.string().describe('A final, summarized paragraph of feedback.'),
 });
 export type ProvideInstantFeedbackOutput = z.infer<typeof ProvideInstantFeedbackOutputSchema>;
 
@@ -34,25 +34,20 @@ const prompt = ai.definePrompt({
   name: 'provideInstantFeedbackPrompt',
   input: {schema: ProvideInstantFeedbackInputSchema},
   output: {schema: ProvideInstantFeedbackOutputSchema},
-  prompt: `You are an AI-powered interview coach providing instant feedback to students.
+  prompt: `You are an expert AI-powered interview coach providing instant, production-quality feedback.
 
-You will receive the interview question, the student\'s answer, and the interview type.
+  Analyze the user's answer based on the interview type and question. Provide structured, constructive feedback.
 
-Your task is to analyze the answer and provide structured feedback, including strengths, weaknesses, and specific suggestions for improvement.
+  Interview Type: {{{interviewType}}}
+  Question: {{{question}}}
+  Answer: {{{answer}}}
 
-Also, provide an overall score for the answer (0-100).
-
-Interview Type: {{{interviewType}}}
-Question: {{{question}}}
-Answer: {{{answer}}}
-
-Strengths:
-
-Weaknesses:
-
-Suggestions:
-
-Overall Score:`,config: {
+  Your evaluation must include:
+  1.  **Overall Score**: A single score from 0 to 10, where 0 is poor and 10 is excellent.
+  2.  **Strengths**: 2-3 specific, positive bullet points about what the user did well.
+  3.  **Areas for Improvement**: 2-3 actionable bullet points on how to improve.
+  4.  **Summary**: A concise paragraph summarizing the key feedback and providing encouragement.`,
+  config: {
     safetySettings: [
       {
         category: 'HARM_CATEGORY_HATE_SPEECH',

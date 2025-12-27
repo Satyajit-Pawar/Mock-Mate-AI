@@ -54,7 +54,7 @@ export default function HistoryTable({ data, loading }: HistoryTableProps) {
                                     <TableCell className="font-medium">{format(session.createdAt.toDate(), "MMM d, yyyy")}</TableCell>
                                     <TableCell><Badge variant="secondary">{session.interviewType}</Badge></TableCell>
                                     <TableCell className="hidden md:table-cell max-w-sm truncate text-muted-foreground">{session.question}</TableCell>
-                                    <TableCell className="text-right font-semibold text-primary">{session.feedback.overallScore}</TableCell>
+                                    <TableCell className="text-right font-semibold text-primary">{session.feedback.overallScore}/10</TableCell>
                                 </TableRow>
                             ))
                         ) : (

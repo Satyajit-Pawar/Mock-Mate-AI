@@ -10,10 +10,10 @@ export interface User {
 export type InterviewType = "Technical" | "HR" | "Behavioral" | "Fresher";
 
 export interface InterviewFeedback {
-  strengths: string;
-  weaknesses: string;
-  suggestions: string;
   overallScore: number;
+  strengths: string[];
+  areasForImprovement: string[];
+  summary: string;
 }
 
 export interface InterviewSession {

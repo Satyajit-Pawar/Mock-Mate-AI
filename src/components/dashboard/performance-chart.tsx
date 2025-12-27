@@ -51,7 +51,7 @@ export default function PerformanceChart({ data }: PerformanceChartProps) {
                 />
                  <YAxis
                     dataKey="score"
-                    domain={[0, 100]}
+                    domain={[0, 10]}
                     tickLine={false}
                     axisLine={false}
                     tickMargin={10}

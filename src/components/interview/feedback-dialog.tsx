@@ -32,29 +32,37 @@ export default function FeedbackDialog({ open, onOpenChange, feedback, onNext }:
           <div>
             <div className="flex justify-between items-center mb-2">
                 <h3 className="font-semibold">Overall Score</h3>
-                <span className="font-bold text-lg text-primary">{feedback.overallScore}/100</span>
+                <span className="font-bold text-lg text-primary">{feedback.overallScore}/10</span>
             </div>
-            <Progress value={feedback.overallScore} className="w-full" />
+            <Progress value={feedback.overallScore * 10} className="w-full" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
                 <h4 className="flex items-center font-semibold text-green-600 dark:text-green-500">
                     <ThumbsUp className="mr-2 h-5 w-5" /> Strengths
                 </h4>
-                <div className="text-sm text-muted-foreground p-4 bg-muted/50 rounded-md min-h-[100px]">{feedback.strengths}</div>
+                <div className="text-sm text-muted-foreground p-4 bg-muted/50 rounded-md min-h-[100px]">
+                  <ul className="list-disc pl-4 space-y-1">
+                    {feedback.strengths.map((item, index) => <li key={index}>{item}</li>)}
+                  </ul>
+                </div>
             </div>
             <div className="space-y-2">
                 <h4 className="flex items-center font-semibold text-red-600 dark:text-red-500">
-                    <ThumbsDown className="mr-2 h-5 w-5" /> Weaknesses
+                    <ThumbsDown className="mr-2 h-5 w-5" /> Areas for Improvement
                 </h4>
-                <div className="text-sm text-muted-foreground p-4 bg-muted/50 rounded-md min-h-[100px]">{feedback.weaknesses}</div>
+                <div className="text-sm text-muted-foreground p-4 bg-muted/50 rounded-md min-h-[100px]">
+                  <ul className="list-disc pl-4 space-y-1">
+                    {feedback.areasForImprovement.map((item, index) => <li key={index}>{item}</li>)}
+                  </ul>
+                </div>
             </div>
           </div>
           <div className="space-y-2">
             <h4 className="flex items-center font-semibold text-blue-600 dark:text-blue-500">
-                <Lightbulb className="mr-2 h-5 w-5" /> Suggestions for Improvement
+                <Lightbulb className="mr-2 h-5 w-5" /> Summary
             </h4>
-            <div className="text-sm text-muted-foreground p-4 bg-muted/50 rounded-md">{feedback.suggestions}</div>
+            <div className="text-sm text-muted-foreground p-4 bg-muted/50 rounded-md">{feedback.summary}</div>
           </div>
         </div>
         <DialogFooter>
