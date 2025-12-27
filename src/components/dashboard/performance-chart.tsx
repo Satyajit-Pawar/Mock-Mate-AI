@@ -18,7 +18,7 @@ type PerformanceChartProps = {
 
 export default function PerformanceChart({ data }: PerformanceChartProps) {
   const chartData = data
-    .filter(session => session.createdAt && session.feedback)
+    .filter(session => session.createdAt && session.feedback && session.feedback.overallScore !== undefined)
     .map(session => ({
       date: format(session.createdAt.toDate(), 'MMM d'),
       score: session.feedback.overallScore,
