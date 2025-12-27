@@ -21,11 +21,8 @@ type HistoryTableProps = {
 };
 
 export default function HistoryTable({ data, loading }: HistoryTableProps) {
-  const validData = data.filter(session => 
-    session.createdAt && 
-    typeof session.createdAt.toDate === 'function' && 
-    session.feedback?.overallScore !== undefined
-  );
+  // Filter for sessions that have a valid 'createdAt' property.
+  const validData = data.filter(session => session.createdAt);
   
   return (
     <Card className="h-full">
