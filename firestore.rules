@@ -4,10 +4,10 @@ service cloud.firestore {
     match /interviews/{interviewId} {
       // Users can only create interview data for themselves.
       allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
-      // Users can read or list their own interview data.
+      // Users can read their own interview data.
       allow read: if request.auth != null && request.auth.uid == resource.data.userId;
-      // This rule is necessary to allow the query on the dashboard.
-      allow list: if request.auth != null && request.query.resource.data.userId == request.auth.uid;
+      // Allow users to list their own interviews. This rule is specifically for the dashboard query.
+      allow list: if request.auth != null && request.auth.uid == request.query.where[0][2];
     }
   }
 }

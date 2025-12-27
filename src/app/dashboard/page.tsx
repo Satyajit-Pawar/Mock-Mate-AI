@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/use-auth';
 import { db } from '@/lib/firebase';
-import { collection, query, where, getDocs, Timestamp } from 'firebase/firestore';
+import { collection, query, where, getDocs, Timestamp, orderBy } from 'firebase/firestore';
 import type { InterviewSession, InterviewType, InterviewDifficulty } from '@/lib/types';
 
 import Header from '@/components/shared/header';
@@ -57,12 +57,17 @@ export default function DashboardPage() {
       const fetchHistory = async () => {
         setDataLoading(true);
         try {
-          const q = query(collection(db, "interviews"), where("userId", "==", user.uid));
+          const q = query(
+            collection(db, "interviews"), 
+            where("userId", "==", user.uid),
+            orderBy("createdAt", "desc")
+          );
+
           const querySnapshot = await getDocs(q);
           const historyData = querySnapshot.docs.map(doc => {
             const data = doc.data();
             // Firestore Timestamps need to be converted to JS Date objects.
-            const createdAt = data.createdAt instanceof Timestamp ? data.createdAt.toDate() : new Date(data.createdAt);
+            const createdAt = data.createdAt instanceof Timestamp ? data.createdAt.toDate() : new Date();
             return { 
                 id: doc.id, 
                 ...data,
@@ -70,8 +75,6 @@ export default function DashboardPage() {
             } as InterviewSession
           });
           
-          historyData.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-
           setHistory(historyData);
         } catch (error) {
           console.error("Error fetching interview history:", error);
