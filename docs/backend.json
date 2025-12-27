@@ -1,0 +1,91 @@
+{
+  "entities": {
+    "InterviewSession": {
+      "title": "Interview Session",
+      "description": "Represents a single mock interview session for a user.",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "The ID of the user who conducted the interview."
+        },
+        "interviewType": {
+          "type": "string",
+          "description": "The type of interview.",
+          "enum": ["Technical", "Behavioral", "Fresher"]
+        },
+        "sessionName": {
+          "type": "string",
+          "description": "A user-defined name for the interview session."
+        },
+        "topic": {
+          "type": "string",
+          "description": "A specific topic for the interview question (e.g., 'React Hooks')."
+        },
+        "difficulty": {
+          "type": "string",
+          "description": "The difficulty level of the question.",
+          "enum": ["Easy", "Medium", "Hard"]
+        },
+        "resumeText": {
+          "type": "string",
+          "description": "The text content of the user's resume, if provided."
+        },
+        "question": {
+          "type": "string",
+          "description": "The question that was asked during the interview."
+        },
+        "answer": {
+          "type": "string",
+          "description": "The user's answer to the question."
+        },
+        "feedback": {
+          "type": "object",
+          "description": "The AI-generated feedback for the user's answer.",
+          "properties": {
+            "overallScore": {
+              "type": "number",
+              "description": "An overall score for the answer, on a scale of 0 to 10."
+            },
+            "strengths": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "A list of bullet points highlighting the strengths of the answer."
+            },
+            "areasForImprovement": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "A list of bullet points suggesting areas for improvement."
+            },
+            "summary": {
+              "type": "string",
+              "description": "A final, summarized paragraph of feedback."
+            }
+          },
+          "required": ["overallScore", "strengths", "areasForImprovement", "summary"]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the interview session was created."
+        }
+      },
+      "required": ["userId", "interviewType", "sessionName", "question", "answer", "feedback", "createdAt"]
+    }
+  },
+  "auth": {
+    "providers": ["google.com", "password"]
+  },
+  "firestore": {
+    "/interviews/{interviewId}": {
+      "schema": {
+        "$ref": "#/entities/InterviewSession"
+      },
+      "description": "Stores all the interview sessions conducted by users."
+    }
+  }
+}
